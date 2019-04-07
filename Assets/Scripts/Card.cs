@@ -7,7 +7,9 @@ public class Card : MonoBehaviour
     [SerializeField] private GameObject cardBack;
     [SerializeField] private GameObject cardBorder;
     [SerializeField] private CardAssigner controller;
-
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip flip;
+ 
     public int ID;
 
     public void OnMouseDown()
@@ -16,6 +18,7 @@ public class Card : MonoBehaviour
         {
             cardBack.SetActive(false);
             controller.CardRevealed(this);
+            audioSource.PlayOneShot(flip);
         }
     }//end OnMouseDown()
 
