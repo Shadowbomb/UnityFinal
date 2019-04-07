@@ -5,14 +5,16 @@ using UnityEngine;
 public class Card : MonoBehaviour
 {
     [SerializeField] private GameObject cardBack;
+    [SerializeField] private CardAssigner controller;
 
-    private int ID;
+    public int ID;
 
     public void OnMouseDown()
     {
-        if (cardBack.activeSelf)
+        if (cardBack.activeSelf && controller.canReveal)
         {
             cardBack.SetActive(false);
+            controller.CardRevealed(this);
         }
     }//end OnMouseDown()
 
@@ -21,4 +23,30 @@ public class Card : MonoBehaviour
         ID = id;
         GetComponent<SpriteRenderer>().sprite = image;
     }//end SetCard()
+
+    public void setUnused()
+    {
+        gameObject.SetActive(false);
+    }// end SetUnused
+
+    public void setUsed()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void Reveal()
+    {
+        if (cardBack.activeSelf)
+        {
+            cardBack.SetActive(false);
+        }
+    }//end Reveal()
+
+    public void Unreveal()
+    {
+        if (!cardBack.activeSelf)
+        {
+            cardBack.SetActive(true);
+        }    
+    }// end Unreveal()
 }
