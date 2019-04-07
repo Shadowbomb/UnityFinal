@@ -21,7 +21,7 @@ public class StartButton : MonoBehaviour
     {
         transform.localScale = Vector3.one; if (targetObject != null)
         {
-            targetObject.SendMessage("playGame", 2);
+            targetObject.SendMessage("playGame", 3);
         }
     }
 }

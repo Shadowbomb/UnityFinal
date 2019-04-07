@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Linq;
 
 public class CardAssigner : MonoBehaviour
@@ -19,6 +20,12 @@ public class CardAssigner : MonoBehaviour
     public bool canReveal
     {
         get { return currentCard == null; }
+    }
+
+
+    void Start()
+    {
+        playGame(3);
     }
 
     public void playGame(int numberOfCards)
@@ -117,11 +124,10 @@ public class CardAssigner : MonoBehaviour
             currentCard = card;
             StartCoroutine(CheckSequence());
         }
-    }
+    } // end CardRevealed()
 
     IEnumerator CheckSequence()
     {
-        yield return new WaitForSeconds(0.01f);
         if(currentCard.ID == usedID.Min())
         { 
             Debug.Log("Corrrect");
@@ -131,14 +137,25 @@ public class CardAssigner : MonoBehaviour
             if(usedID.Count == 0)
             {
                 Debug.Log("You Win!");
+                yield return new WaitForSeconds(1f);
                 playGame(++numCards);
             }
         }
         else
         {
             Debug.Log("Incorrect");
+
+            for (int i = 0; i < cards.Length; i++)
+            {
+                if (usedPOS.Contains(i))
+                {
+                    cards[i].Reveal();
+                }
+            }
+            yield return new WaitForSeconds(3f);
+            SceneManager.LoadScene("MainMenu");
         }
-    }
+    }// end CheckSequence()
 
 
 }
