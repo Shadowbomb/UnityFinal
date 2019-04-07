@@ -112,11 +112,13 @@ public class CardAssigner : MonoBehaviour
 
         yield return new WaitForSeconds(4f);
 
+        Debug.Log("ROUND " + (numCards - 2));
         for(int i = 0; i < cards.Length; i++)
         {
             if (usedPOS.Contains(i))
             {
                 cards[i].Unreveal();
+                Debug.Log("POSITION " + (i + 1) + " = " + (cards[i].ID + 1));
             }
         }
     }// end playRound()
@@ -134,7 +136,6 @@ public class CardAssigner : MonoBehaviour
     {
         if(currentCard.ID == usedID.Min())
         { 
-            Debug.Log("Corrrect");
             usedID.Remove(usedID.Min());
             currentCard = null;
 
@@ -146,7 +147,14 @@ public class CardAssigner : MonoBehaviour
                 }
                 yield return new WaitForSeconds(1f);
                 numCards++;
-                PlayGame();
+                if(numCards > 12)
+                {
+                    SceneManager.LoadScene("Congrats");
+                }
+                else
+                {
+                    PlayGame();
+                }
             }
         }
         else
