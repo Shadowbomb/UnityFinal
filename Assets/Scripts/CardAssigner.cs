@@ -8,8 +8,9 @@ public class CardAssigner : MonoBehaviour
 {
     [SerializeField] private Card[] cards;
     [SerializeField] private Sprite[] images;
+    [SerializeField] private Sprite[] borders;
 
-    private int numCards;
+    private int numCards = 3;
 
     private List<int> usedID;
     private List<int> usedPOS;
@@ -25,17 +26,20 @@ public class CardAssigner : MonoBehaviour
 
     void Start()
     {
-        playGame(3);
+        PlayGame();
     }
 
-    public void playGame(int numberOfCards)
+    public void PlayGame()
     {
-        numCards = numberOfCards;
+        foreach (Card card in cards)
+        {
+            card.SetBorder(borders[0]);
+        }
         usedID = new List<int>(12);
         usedPOS = new List<int>(12);
         
 
-        for (int i = 0; i < numberOfCards; i++)
+        for (int i = 0; i < numCards; i++)
         {
             bool unique = true;
 
@@ -136,15 +140,21 @@ public class CardAssigner : MonoBehaviour
 
             if(usedID.Count == 0)
             {
-                Debug.Log("You Win!");
+                foreach(Card card in cards)
+                {
+                    card.SetBorder(borders[1]);
+                }
                 yield return new WaitForSeconds(1f);
-                playGame(++numCards);
+                numCards++;
+                PlayGame();
             }
         }
         else
         {
-            Debug.Log("Incorrect");
-
+            foreach (Card card in cards)
+            {
+                card.SetBorder(borders[2]);
+            }
             for (int i = 0; i < cards.Length; i++)
             {
                 if (usedPOS.Contains(i))
@@ -152,7 +162,7 @@ public class CardAssigner : MonoBehaviour
                     cards[i].Reveal();
                 }
             }
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(2f);
             SceneManager.LoadScene("MainMenu");
         }
     }// end CheckSequence()

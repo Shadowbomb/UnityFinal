@@ -5,6 +5,7 @@ using UnityEngine;
 public class Card : MonoBehaviour
 {
     [SerializeField] private GameObject cardBack;
+    [SerializeField] private GameObject cardBorder;
     [SerializeField] private CardAssigner controller;
 
     public int ID;
@@ -24,6 +25,11 @@ public class Card : MonoBehaviour
         GetComponent<SpriteRenderer>().sprite = image;
     }//end SetCard()
 
+    public void SetBorder(Sprite image)
+    {
+        cardBorder.GetComponent<SpriteRenderer>().sprite = image;
+    }
+
     public void setUnused()
     {
         gameObject.SetActive(false);
@@ -36,17 +42,11 @@ public class Card : MonoBehaviour
 
     public void Reveal()
     {
-        if (cardBack.activeSelf)
-        {
-            cardBack.SetActive(false);
-        }
+        cardBack.SetActive(false);
     }//end Reveal()
 
     public void Unreveal()
     {
-        if (!cardBack.activeSelf)
-        {
-            cardBack.SetActive(true);
-        }    
+        cardBack.SetActive(true);
     }// end Unreveal()
 }
